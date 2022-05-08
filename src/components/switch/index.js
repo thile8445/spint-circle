@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import style from "./switch.module.scss";
 
 export default function SwitchToggle() {
-  const [themeDark, setThemeDark] = useState(false);
-  useEffect(() => {
+  const defaultTheme = () => {
+    let themeValue = false;
     const theme = localStorage.getItem("theme");
     if (theme === "theme-dark") {
       document.body.classList.add("theme-dark");
-      setThemeDark(true);
+      themeValue = true;
     } else {
       document.body.classList.remove("theme-dark");
-      setThemeDark(false);
+      themeValue = false;
     }
-  }, []);
+    return themeValue;
+  };
+  const [themeDark, setThemeDark] = useState(defaultTheme());
 
   const onchangeTheme = (check) => {
     if (check) {
@@ -30,7 +32,6 @@ export default function SwitchToggle() {
           type="checkbox"
           onChange={(e) => onchangeTheme(e.target.checked)}
           defaultChecked={themeDark}
-          // checked={themeDark}
           id="checkbox"
         />
         <label htmlFor="checkbox"></label>
